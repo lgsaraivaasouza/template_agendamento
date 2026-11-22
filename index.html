@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agendamento Online | SARAIVA LABS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base: #090d16;
+      --bg-surface: #111827;
+      --bg-card: #182234;
+      --bg-elevated: #1e293b;
+      --border-subtle: rgba(148, 163, 184, 0.14);
+      --border-active: #10b981;
+      --emerald: #10b981;
+      --emerald-dark: #059669;
+      --emerald-glow: rgba(16, 185, 129, 0.16);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-base);
+      background-image: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.08), transparent 45%);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+    }
+
+    /* HEADER */
+    .topbar {
+      background: rgba(17, 24, 39, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+    .topbar-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand-client {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-client img {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      object-fit: cover;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+    }
+    .brand-client h1 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .brand-client span {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--emerald);
+      font-weight: 600;
+    }
+
+    .nav-switch {
+      display: flex;
+      background: var(--bg-base);
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+    }
+    .nav-switch button {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      padding: 7px 14px;
+      border-radius: 7px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .nav-switch button.active {
+      background: var(--emerald);
+      color: #042f2e;
+    }
+
+    /* CONTAINER */
+    .container {
+      max-width: 1080px;
+      width: 100%;
+      margin: 28px auto;
+      padding: 0 20px;
+      flex: 1;
+    }
+
+    /* STEPPER / CARDS */
+    .grid-booking {
+      display: grid;
+      grid-template-columns: 1.45fr 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+    @media (max-width: 840px) {
+      .grid-booking { grid-template-columns: 1fr; }
+    }
+
+    .panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      margin-bottom: 18px;
+    }
+    .panel-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .step-badge {
+      width: 26px;
+      height: 26px;
+      border-radius: 7px;
+      background: var(--emerald-glow);
+      color: var(--emerald);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 800;
+    }
+    .panel-title {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    /* OPTION CARDS (SERVIÇOS / PROFISSIONAIS) */
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 12px;
+    }
+    .option-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .option-card:hover {
+      border-color: rgba(16, 185, 129, 0.5);
+      transform: translateY(-1px);
+    }
+    .option-card.selected {
+      background: linear-gradient(145deg, rgba(16, 185, 129, 0.14), var(--bg-card));
+      border-color: var(--emerald);
+      box-shadow: 0 0 0 1px var(--emerald);
+    }
+    .option-name { font-weight: 700; font-size: 0.94rem; }
+    .option-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+    .price-tag {
+      color: var(--emerald);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    /* DATE & SLOTS */
+    .date-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    input[type="date"], input[type="text"], input[type="tel"], input[type="password"], input[type="number"], input[type="time"], select {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      padding: 11px 14px;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.92rem;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus, select:focus { border-color: var(--emerald); }
+    input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
+
+    .slots-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+      gap: 9px;
+    }
+    .slot-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      padding: 10px 6px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .slot-btn:hover { border-color: var(--emerald); }
+    .slot-btn.selected {
+      background: var(--emerald);
+      color: #042f2e;
+      border-color: var(--emerald);
+      font-weight: 800;
+    }
+
+    /* SUMMARY & CTA */
+    .summary-box {
+      position: sticky;
+      top: 86px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+    }
+    .summary-line {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 0.88rem;
+    }
+    .summary-line span:first-child { color: var(--text-secondary); }
+    .summary-line strong { color: var(--text-primary); text-align: right; }
+
+    .form-group { margin-top: 14px; }
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    .btn-primary {
+      width: 100%;
+      margin-top: 18px;
+      background: linear-gradient(135deg, var(--emerald), var(--emerald-dark));
+      color: #022c22;
+      border: none;
+      padding: 13px 18px;
+      border-radius: var(--radius-md);
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover:not(:disabled) { opacity: 0.93; transform: translateY(-1px); }
+    .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .btn-secondary {
+      background: var(--bg-elevated);
+      color: var(--text-primary);
+      border: 1px solid var(--border-subtle);
+      padding: 9px 14px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 0.84rem;
+      cursor: pointer;
+    }
+    .btn-secondary:hover { border-color: var(--emerald); }
+
+    /* ADMIN PANEL */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    .kpi-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 18px;
+    }
+    .kpi-label { font-size: 0.78rem; color: var(--text-secondary); font-weight: 600; }
+    .kpi-value { font-size: 1.55rem; font-weight: 800; margin-top: 6px; color: var(--text-primary); }
+    .kpi-value.emerald { color: var(--emerald); }
+
+    .admin-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .admin-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+    .admin-tab {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .admin-tab.active {
+      background: var(--emerald-glow);
+      color: var(--emerald);
+      border-color: var(--emerald);
+    }
+
+    .agenda-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-left: 4px solid var(--emerald);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .agenda-item.Concluído { border-left-color: #3b82f6; opacity: 0.85; }
+    .agenda-item.Cancelado { border-left-color: var(--danger); opacity: 0.55; }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 99px;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+    .badge-Agendado { background: rgba(16, 185, 129, 0.15); color: var(--emerald); }
+    .badge-Concluído { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+    .badge-Cancelado { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+
+    .status-actions { display: flex; gap: 6px; }
+    .btn-mini {
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .btn-mini:hover { border-color: var(--emerald); }
+
+    /* LOGIN BOX */
+    .login-card {
+      max-width: 400px;
+      margin: 40px auto;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      text-align: center;
+    }
+    .login-card img { width: 54px; margin-bottom: 12px; }
+
+    /* MODAL CONFIRMAÇÃO */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.82);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 60;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--emerald);
+      border-radius: var(--radius-lg);
+      max-width: 420px;
+      width: 100%;
+      padding: 26px;
+      text-align: center;
+    }
+
+    /* FOOTER SARAIVA LABS */
+    .footer {
+      border-top: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      padding: 18px 20px;
+      margin-top: 40px;
+    }
+    .footer-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+    .saraiva-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .saraiva-badge img { width: 22px; height: 22px; border-radius: 5px; }
+    .saraiva-badge strong { color: var(--emerald); }
+
+    .hidden { display: none !important; }
+    .muted-msg { color: var(--text-secondary); font-size: 0.88rem; padding: 12px 0; }
+  </style>
+</head>
+<body>
+
+  <!-- TOPBAR PERSONALIZÁVEL POR CLIENTE -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand-client">
+        <img id="clientLogo" src="https://cdn.shopify.com/s/files/1/0675/1977/4808/files/22243.png?v=1794152561" alt="Logo" />
+        <div>
+          <h1 id="clientName">Carregando Estabelecimento...</h1>
+          <span>Agendamento Online • Confirmação Imediata</span>
+        </div>
+      </div>
+
+      <nav class="nav-switch">
+        <button id="btnViewClient" class="active" onclick="switchView('client')">Agendar</button>
+        <button id="btnViewAdmin" onclick="switchView('admin')">Painel Gestor</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- ==========================================
+         VISÃO 1: AGENDAMENTO PÚBLICO (CLIENTE)
+         ========================================== -->
+    <section id="viewClient" class="grid-booking">
+      <div>
+        <!-- PASSO 1: SERVIÇO -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="step-badge">1</span>
+            <h2 class="panel-title">Escolha o Serviço</h2>
+          </div>
+          <div id="servicesList" class="options-grid">
+            <p class="muted-msg">Carregando serviços disponíveis...</p>
+          </div>
+        </div>
+
+        <!-- PASSO 2: PROFISSIONAL -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="step-badge">2</span>
+            <h2 class="panel-title">Escolha o Profissional</h2>
+          </div>
+          <div id="prosList" class="options-grid">
+            <p class="muted-msg">Carregando equipe...</p>
+          </div>
+        </div>
+
+        <!-- PASSO 3: DATA & HORÁRIO -->
+        <div class="panel">
+          <div class="panel-header">
+            <span class="step-badge">3</span>
+            <h2 class="panel-title">Data e Horário Livre</h2>
+          </div>
+          <div class="date-row">
+            <div style="flex:1; min-width: 200px;">
+              <input type="date" id="bookingDate" onchange="carregarHorarios()" />
+            </div>
+          </div>
+          <div id="slotsContainer" class="slots-grid">
+            <p class="muted-msg" style="grid-column: 1/-1;">Selecione serviço, profissional e data para ver os horários livres.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESUMO E CHECKOUT -->
+      <aside class="summary-box">
+        <div class="panel-header">
+          <span class="step-badge">4</span>
+          <h2 class="panel-title">Resumo & Confirmação</h2>
+        </div>
+
+        <div class="summary-line"><span>Serviço</span><strong id="sumService">—</strong></div>
+        <div class="summary-line"><span>Profissional</span><strong id="sumPro">—</strong></div>
+        <div class="summary-line"><span>Data e Hora</span><strong id="sumDateTime">—</strong></div>
+        <div class="summary-line"><span>Investimento</span><strong id="sumPrice" style="color:var(--emerald);">R$ 0,00</strong></div>
+
+        <div class="form-group">
+          <label for="custName">Seu Nome Completo</label>
+          <input type="text" id="custName" placeholder="Ex: João Pedro Silva" oninput="validarCheckout()" />
+        </div>
+        <div class="form-group">
+          <label for="custWhats">WhatsApp (com DDD)</label>
+          <input type="tel" id="custWhats" placeholder="Ex: 19 99999-9999" oninput="validarCheckout()" />
+        </div>
+
+        <button id="btnConfirmBooking" class="btn-primary" disabled onclick="confirmarAgendamento()">
+          Confirmar Agendamento
+        </button>
+      </aside>
+    </section>
+
+    <!-- ==========================================
+         VISÃO 2: PAINEL DE GESTÃO (ESTABELECIMENTO)
+         ========================================== -->
+    <section id="viewAdmin" class="hidden">
+
+      <!-- TELA DE ACESSO (PIN) -->
+      <div id="adminLoginBox" class="login-card">
+        <img src="https://cdn.shopify.com/s/files/1/0675/1977/4808/files/22243.png?v=1794152561" alt="SARAIVA LABS" />
+        <h2 style="font-size:1.15rem; margin-bottom:6px;">Acesso Restrito ao Gestor</h2>
+        <p class="muted-msg" style="padding-top:0;">Insira o PIN administrativo do estabelecimento.</p>
+        <div class="form-group" style="text-align:left;">
+          <input type="password" id="adminPinInput" placeholder="••••" onkeydown="if(event.key==='Enter') autenticarAdmin()" />
+        </div>
+        <button class="btn-primary" onclick="autenticarAdmin()">Entrar no Painel</button>
+        <p style="margin-top:16px; font-size:0.72rem; color:var(--text-muted);">
+          Powered by <strong style="color:var(--emerald);">SARAIVA LABS</strong>
+        </p>
+      </div>
+
+      <!-- DASHBOARD AUTENTICADO -->
+      <div id="adminDashboard" class="hidden">
+        <!-- RESUMO FINANCEIRO & OPERACIONAL DO DIA -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Faturamento Concluído (Dia)</div>
+            <div class="kpi-value emerald" id="kpiRealizado">R$ 0,00</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Previsão Agendada (Dia)</div>
+            <div class="kpi-value" id="kpiPrevisto">R$ 0,00</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Atendimentos Ativos (Dia)</div>
+            <div class="kpi-value" id="kpiAtendimentos">0</div>
+          </div>
+        </div>
+
+        <div class="admin-toolbar">
+          <div class="admin-tabs">
+            <button class="admin-tab active" onclick="switchAdminTab('agenda', this)">Agenda do Dia / Semana</button>
+            <button class="admin-tab" onclick="switchAdminTab('bloqueios', this)">Bloqueios & Folgas</button>
+            <button class="admin-tab" onclick="switchAdminTab('servicos', this)">Serviços & Valores</button>
+          </div>
+
+          <div style="display:flex; gap:8px; align-items:center;">
+            <input type="date" id="adminFilterDate" style="width:auto;" onchange="renderAdminAgenda()" />
+            <select id="adminFilterRange" style="width:auto;" onchange="renderAdminAgenda()">
+              <option value="day">Visão do Dia</option>
+              <option value="week">Próximos 7 Dias</option>
+            </select>
+            <button class="btn-secondary" onclick="recarregarAdmin()">Atualizar</button>
+          </div>
+        </div>
+
+        <!-- SUB-ABA 1: AGENDA -->
+        <div id="tabAgenda" class="panel">
+          <div id="adminAgendaList"></div>
+        </div>
+
+        <!-- SUB-ABA 2: BLOQUEIOS -->
+        <div id="tabBloqueios" class="panel hidden">
+          <h3 class="panel-title" style="margin-bottom:14px;">Bloquear Horário ou Folga</h3>
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap:10px; margin-bottom:18px;">
+            <input type="date" id="blqData" />
+            <input type="time" id="blqIni" value="12:00" />
+            <input type="time" id="blqFim" value="13:00" />
+            <select id="blqPro"><option value="TODOS">Todos os Profissionais</option></select>
+            <input type="text" id="blqMotivo" placeholder="Motivo (ex: Almoço)" />
+            <button class="btn-primary" style="margin-top:0;" onclick="adicionarBloqueio()">Bloquear</button>
+          </div>
+          <div id="adminBloqueiosList"></div>
+        </div>
+
+        <!-- SUB-ABA 3: SERVIÇOS -->
+        <div id="tabServicos" class="panel hidden">
+          <h3 class="panel-title" style="margin-bottom:14px;">Cadastrar Novo Serviço</h3>
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap:10px; margin-bottom:18px;">
+            <input type="text" id="srvNome" placeholder="Nome do serviço" />
+            <input type="number" id="srvDuracao" placeholder="Duração (min)" value="30" step="15" />
+            <input type="number" id="srvPreco" placeholder="Valor (R$)" step="0.01" />
+            <button class="btn-primary" style="margin-top:0;" onclick="cadastrarServico()">Salvar Serviço</button>
+          </div>
+          <div id="adminServicosList"></div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- MODAL DE CONFIRMAÇÃO AO CLIENTE -->
+  <div id="confirmModal" class="modal-backdrop">
+    <div class="modal-box">
+      <div style="font-size:2.2rem; margin-bottom:8px;">✅</div>
+      <h3 style="font-size:1.2rem; margin-bottom:6px;">Horário Reservado!</h3>
+      <p id="modalDetails" class="muted-msg"></p>
+      <a id="btnWhatsReceipt" href="#" target="_blank" class="btn-primary" style="display:block; text-decoration:none; margin-top:14px;">
+        Enviar Comprovante no WhatsApp
+      </a>
+      <button class="btn-secondary" style="width:100%; margin-top:10px;" onclick="fecharModal()">Concluir</button>
+    </div>
+  </div>
+
+  <!-- RODAPÉ OFICIAL SARAIVA LABS -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span id="footerClientCopy">© 2026 Todos os direitos reservados.</span>
+      <a href="https://saraivalabs.com.br" target="_blank" class="saraiva-badge">
+        <img src="https://cdn.shopify.com/s/files/1/0675/1977/4808/files/22243.png?v=1794152561" alt="SARAIVA LABS" />
+        <span>Powered by <strong>SARAIVA LABS</strong></span>
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    // ========================================================
+    // CONFIGURAÇÃO DE IMPLANTAÇÃO (POR CLIENTE / SUBDOMÍNIO)
+    // ========================================================
+    const API_URL = 'https://script.google.com/macros/s/AKfycbzvGlFTA-JoVj1QW5wtKd_DDB6SVLUT-ThQFpoy6JPIMYe7T-I5_L1YrNkn0sH9_IaAww/exec';
+
+    // Estado Global
+    let state = {
+      config: {},
+      servicos: [],
+      profissionais: [],
+      selectedService: null,
+      selectedPro: null,
+      selectedSlot: null,
+      adminPin: null,
+      adminData: { agendamentos: [], bloqueios: [], servicos: [], profissionais: [] }
+    };
+
+    // Inicialização
+    document.addEventListener('DOMContentLoaded', async () => {
+      const hoje = new Date().toISOString().split('T')[0];
+      document.getElementById('bookingDate').value = hoje;
+      document.getElementById('bookingDate').min = hoje;
+      document.getElementById('adminFilterDate').value = hoje;
+      document.getElementById('blqData').value = hoje;
+
+      await carregarDadosIniciais();
+    });
+
+    async function carregarDadosIniciais() {
+      try {
+        const res = await fetch(`${API_URL}?action=init`).then(r => r.json());
+        if (!res.ok) throw new Error(res.error);
+
+        state.config = res.data.config || {};
+        state.servicos = res.data.servicos || [];
+        state.profissionais = res.data.profissionais || [];
+
+        // Aplica White-Label do cliente
+        if (state.config.NOME_ESTABELECIMENTO) {
+          document.getElementById('clientName').textContent = state.config.NOME_ESTABELECIMENTO;
+          document.title = `${state.config.NOME_ESTABELECIMENTO} | Agendamento Online`;
+          document.getElementById('footerClientCopy').textContent = `© 2026 ${state.config.NOME_ESTABELECIMENTO}`;
+        }
+        if (state.config.LOGO_URL) {
+          document.getElementById('clientLogo').src = state.config.LOGO_URL;
+        }
+
+        renderServicos();
+        renderProfissionais();
+      } catch (err) {
+        document.getElementById('servicesList').innerHTML =
+          `<p class="muted-msg" style="color:#f87171;">Configure a constante <code>API_URL</code> no código para conectar à planilha do cliente.</p>`;
+      }
+    }
+
+    function renderServicos() {
+      const el = document.getElementById('servicesList');
+      el.innerHTML = state.servicos.map(s => `
+        <div class="option-card ${state.selectedService?.ID === s.ID ? 'selected' : ''}" onclick="selecionarServico('${s.ID}')">
+          <div class="option-name">${s.Nome}</div>
+          <div class="option-meta">
+            <span>⏱ ${s.Duracao_Min} min</span>
+            <span class="price-tag">${formatBRL(s.Preco)}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderProfissionais() {
+      const el = document.getElementById('prosList');
+      el.innerHTML = state.profissionais.map(p => `
+        <div class="option-card ${state.selectedPro?.ID === p.ID ? 'selected' : ''}" onclick="selecionarProfissional('${p.ID}')">
+          <div class="option-name">${p.Nome}</div>
+          <div class="option-meta"><span>${p.Especialidade}</span></div>
+        </div>
+      `).join('');
+    }
+
+    function selecionarServico(id) {
+      state.selectedService = state.servicos.find(s => s.ID === id);
+      state.selectedSlot = null;
+      renderServicos();
+      atualizarResumo();
+      carregarHorarios();
+    }
+
+    function selecionarProfissional(id) {
+      state.selectedPro = state.profissionais.find(p => p.ID === id);
+      state.selectedSlot = null;
+      renderProfissionais();
+      atualizarResumo();
+      carregarHorarios();
+    }
+
+    async function carregarHorarios() {
+      const container = document.getElementById('slotsContainer');
+      const data = document.getElementById('bookingDate').value;
+      if (!state.selectedService || !state.selectedPro || !data) return;
+
+      container.innerHTML = `<p class="muted-msg" style="grid-column:1/-1;">Calculando horários livres...</p>`;
+      const url = `${API_URL}?action=slots&data=${data}&profissionalId=${state.selectedPro.ID}&duracaoMin=${state.selectedService.Duracao_Min}`;
+      const res = await fetch(url).then(r => r.json());
+
+      if (!res.ok || !res.slots.length) {
+        container.innerHTML = `<p class="muted-msg" style="grid-column:1/-1;">Nenhum horário livre nesta data para este profissional.</p>`;
+        return;
+      }
+
+      container.innerHTML = res.slots.map(hora => `
+        <button class="slot-btn ${state.selectedSlot === hora ? 'selected' : ''}" onclick="selecionarHorario('${hora}')">${hora}</button>
+      `).join('');
+    }
+
+    function selecionarHorario(hora) {
+      state.selectedSlot = hora;
+      document.querySelectorAll('.slot-btn').forEach(b => b.classList.toggle('selected', b.textContent === hora));
+      atualizarResumo();
+    }
+
+    function atualizarResumo() {
+      const data = document.getElementById('bookingDate').value;
+      document.getElementById('sumService').textContent = state.selectedService ? state.selectedService.Nome : '—';
+      document.getElementById('sumPro').textContent = state.selectedPro ? state.selectedPro.Nome : '—';
+      document.getElementById('sumDateTime').textContent = (data && state.selectedSlot) ? `${formatDataBR(data)} às ${state.selectedSlot}` : '—';
+      document.getElementById('sumPrice').textContent = state.selectedService ? formatBRL(state.selectedService.Preco) : 'R$ 0,00';
+      validarCheckout();
+    }
+
+    function validarCheckout() {
+      const nome = document.getElementById('custName').value.trim();
+      const whats = document.getElementById('custWhats').value.trim();
+      const ok = state.selectedService && state.selectedPro && state.selectedSlot && nome.length >= 3 && whats.length >= 8;
+      document.getElementById('btnConfirmBooking').disabled = !ok;
+    }
+
+    async function confirmarAgendamento() {
+      const btn = document.getElementById('btnConfirmBooking');
+      btn.disabled = true;
+      btn.textContent = 'Reservando...';
+
+      const dados = {
+        data: document.getElementById('bookingDate').value,
+        horaInicio: state.selectedSlot,
+        servicoId: state.selectedService.ID,
+        profissionalId: state.selectedPro.ID,
+        clienteNome: document.getElementById('custName').value.trim(),
+        clienteWhatsapp: document.getElementById('custWhats').value.trim()
+      };
+
+      const res = await postAPI({ action: 'criarAgendamento', dados });
+      btn.textContent = 'Confirmar Agendamento';
+
+      if (!res.ok) {
+        alert(res.error || 'Erro ao agendar.');
+        carregarHorarios();
+        return;
+      }
+
+      const ag = res.agendamento;
+      document.getElementById('modalDetails').innerHTML =
+        `Código <strong>#${ag.id}</strong><br>${ag.servico} com ${ag.profissional}<br><strong>${formatDataBR(ag.data)} às ${ag.horaInicio}</strong>`;
+
+      const lojaWhats = String(state.config.WHATSAPP_LOJA || '').replace(/\D/g, '');
+      const msg = encodeURIComponent(`Olá! Acabei de agendar:\n*Código:* #${ag.id}\n*Serviço:* ${ag.servico}\n*Profissional:* ${ag.profissional}\n*Data/Hora:* ${formatDataBR(ag.data)} às ${ag.horaInicio}\n*Cliente:* ${dados.clienteNome}`);
+      document.getElementById('btnWhatsReceipt').href = `https://wa.me/${lojaWhats}?text=${msg}`;
+
+      document.getElementById('confirmModal').classList.add('open');
+      state.selectedSlot = null;
+      atualizarResumo();
+      carregarHorarios();
+    }
+
+    function fecharModal() {
+      document.getElementById('confirmModal').classList.remove('open');
+    }
+
+    // ========================================================
+    // NAVEGAÇÃO & PAINEL GESTOR
+    // ========================================================
+    function switchView(view) {
+      document.getElementById('viewClient').classList.toggle('hidden', view !== 'client');
+      document.getElementById('viewAdmin').classList.toggle('hidden', view !== 'admin');
+      document.getElementById('btnViewClient').classList.toggle('active', view === 'client');
+      document.getElementById('btnViewAdmin').classList.toggle('active', view === 'admin');
+    }
+
+    async function autenticarAdmin() {
+      const pin = document.getElementById('adminPinInput').value.trim();
+      const res = await postAPI({ action: 'loginAdmin', pin });
+      if (!res.ok) return alert(res.error || 'PIN incorreto.');
+
+      state.adminPin = pin;
+      state.adminData = res.adminData;
+      document.getElementById('adminLoginBox').classList.add('hidden');
+      document.getElementById('adminDashboard').classList.remove('hidden');
+      popularSelectProfissionaisBloqueio();
+      renderAdminTudo();
+    }
+
+    async function recarregarAdmin() {
+      const res = await postAPI({ action: 'getAdminData', pin: state.adminPin });
+      if (res.ok) {
+        state.adminData = res.adminData;
+        renderAdminTudo();
+      }
+    }
+
+    function renderAdminTudo() {
+      renderAdminAgenda();
+      renderAdminBloqueios();
+      renderAdminServicos();
+    }
+
+    function renderAdminAgenda() {
+      const baseDate = document.getElementById('adminFilterDate').value;
+      const range = document.getElementById('adminFilterRange').value;
+      const limiteDate = new Date(baseDate + 'T00:00:00');
+      limiteDate.setDate(limiteDate.getDate() + (range === 'week' ? 7 : 0));
+      const limiteStr = limiteDate.toISOString().split('T')[0];
+
+      // KPIs sempre refletem o dia selecionado no filtro
+      const doDia = state.adminData.agendamentos.filter(a => a.Data === baseDate);
+      const realizado = doDia.filter(a => a.Status === 'Concluído').reduce((acc, a) => acc + Number(a.Valor || 0), 0);
+      const previsto = doDia.filter(a => a.Status === 'Agendado').reduce((acc, a) => acc + Number(a.Valor || 0), 0);
+      const ativos = doDia.filter(a => a.Status !== 'Cancelado').length;
+
+      document.getElementById('kpiRealizado').textContent = formatBRL(realizado);
+      document.getElementById('kpiPrevisto').textContent = formatBRL(previsto);
+      document.getElementById('kpiAtendimentos').textContent = ativos;
+
+      const filtrados = state.adminData.agendamentos
+        .filter(a => a.Data >= baseDate && a.Data <= limiteStr)
+        .sort((a, b) => (a.Data + a.Hora_Inicio).localeCompare(b.Data + b.Hora_Inicio));
+
+      const el = document.getElementById('adminAgendaList');
+      if (!filtrados.length) {
+        el.innerHTML = `<p class="muted-msg">Nenhum agendamento encontrado para este período.</p>`;
+        return;
+      }
+
+      el.innerHTML = filtrados.map(a => `
+        <div class="agenda-item ${a.Status}">
+          <div>
+            <div style="font-weight:700; font-size:0.95rem;">
+              ${formatDataBR(a.Data)} • ${a.Hora_Inicio} - ${a.Hora_Fim} — ${a.Cliente_Nome}
+            </div>
+            <div style="font-size:0.82rem; color:var(--text-secondary); margin-top:3px;">
+              ${a.Servico_Nome} (${formatBRL(a.Valor)}) • Prof: <strong>${a.Profissional_Nome}</strong> • Whats: ${a.Cliente_WhatsApp}
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+            <span class="badge badge-${a.Status}">${a.Status}</span>
+            <div class="status-actions">
+              <button class="btn-mini" onclick="mudarStatus('${a.ID}', 'Concluído')">Concluir</button>
+              <button class="btn-mini" onclick="mudarStatus('${a.ID}', 'Agendado')">Reabrir</button>
+              <button class="btn-mini" style="color:#f87171;" onclick="mudarStatus('${a.ID}', 'Cancelado')">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function mudarStatus(id, status) {
+      await postAPI({ action: 'atualizarStatus', pin: state.adminPin, id, status });
+      await recarregarAdmin();
+    }
+
+    function popularSelectProfissionaisBloqueio() {
+      const sel = document.getElementById('blqPro');
+      sel.innerHTML = `<option value="TODOS">Todos os Profissionais</option>` +
+        state.adminData.profissionais.map(p => `<option value="${p.ID}">${p.Nome}</option>`).join('');
+    }
+
+    async function adicionarBloqueio() {
+      const dados = {
+        data: document.getElementById('blqData').value,
+        horaInicio: document.getElementById('blqIni').value,
+        horaFim: document.getElementById('blqFim').value,
+        profissionalId: document.getElementById('blqPro').value,
+        motivo: document.getElementById('blqMotivo').value.trim()
+      };
+      await postAPI({ action: 'criarBloqueio', pin: state.adminPin, dados });
+      await recarregarAdmin();
+    }
+
+    function renderAdminBloqueios() {
+      const el = document.getElementById('adminBloqueiosList');
+      if (!state.adminData.bloqueios.length) {
+        el.innerHTML = `<p class="muted-msg">Nenhum bloqueio ativo.</p>`;
+        return;
+      }
+      el.innerHTML = state.adminData.bloqueios.map(b => `
+        <div class="agenda-item" style="border-left-color:var(--warning);">
+          <div>
+            <strong>${formatDataBR(b.Data)} • ${b.Hora_Inicio} às ${b.Hora_Fim}</strong>
+            <div style="font-size:0.82rem; color:var(--text-secondary);">Alvo: ${b.Profissional_ID} • Motivo: ${b.Motivo}</div>
+          </div>
+          <button class="btn-mini" style="color:#f87171;" onclick="excluirBloqueio('${b.ID}')">Remover</button>
+        </div>
+      `).join('');
+    }
+
+    async function excluirBloqueio(id) {
+      await postAPI({ action: 'removerBloqueio', pin: state.adminPin, id });
+      await recarregarAdmin();
+    }
+
+    async function cadastrarServico() {
+      const dados = {
+        nome: document.getElementById('srvNome').value.trim(),
+        duracao: document.getElementById('srvDuracao').value,
+        preco: document.getElementById('srvPreco').value
+      };
+      if (!dados.nome || !dados.preco) return alert('Preencha nome e valor.');
+      await postAPI({ action: 'salvarServico', pin: state.adminPin, dados });
+      document.getElementById('srvNome').value = '';
+      document.getElementById('srvPreco').value = '';
+      await recarregarAdmin();
+      await carregarDadosIniciais();
+    }
+
+    function renderAdminServicos() {
+      const el = document.getElementById('adminServicosList');
+      el.innerHTML = state.adminData.servicos.map(s => `
+        <div class="agenda-item">
+          <div>
+            <strong>${s.Nome}</strong>
+            <div style="font-size:0.82rem; color:var(--text-secondary);">Duração: ${s.Duracao_Min} min • Valor: ${formatBRL(s.Preco)}</div>
+          </div>
+          <span class="badge badge-Agendado">${s.Ativo}</span>
+        </div>
+      `).join('');
+    }
+
+    function switchAdminTab(tab, btn) {
+      document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tabAgenda').classList.toggle('hidden', tab !== 'agenda');
+      document.getElementById('tabBloqueios').classList.toggle('hidden', tab !== 'bloqueios');
+      document.getElementById('tabServicos').classList.toggle('hidden', tab !== 'servicos');
+    }
+
+    // Helpers
+    async function postAPI(body) {
+      return fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(body)
+      }).then(r => r.json());
+    }
+
+    function formatBRL(val) {
+      return Number(val || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    function formatDataBR(iso) {
+      if (!iso || !iso.includes('-')) return iso;
+      const [y, m, d] = iso.split('-');
+      return `${d}/${m}/${y}`;
+    }
+  </script>
+</body>
+</html>
