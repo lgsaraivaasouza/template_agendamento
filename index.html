@@ -618,16 +618,19 @@
 
         <!-- SUB-ABA 3: SERVIÇOS -->
         <div id="tabServicos" class="panel hidden">
-          <h3 class="panel-title" style="margin-bottom:14px;">Cadastrar Novo Serviço</h3>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+            <h3 class="panel-title" id="srvFormTitle">Cadastrar Novo Serviço</h3>
+            <button type="button" id="btnCancelarEdicaoSrv" class="btn-mini hidden" onclick="limparFormServico()">Cancelar Edição</button>
+          </div>
+          <input type="hidden" id="srvId" />
           <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap:10px; margin-bottom:18px;">
             <input type="text" id="srvNome" placeholder="Nome do serviço" />
             <input type="number" id="srvDuracao" placeholder="Duração (min)" value="30" step="15" />
             <input type="number" id="srvPreco" placeholder="Valor (R$)" step="0.01" />
-            <button class="btn-primary" style="margin-top:0;" onclick="cadastrarServico()">Salvar Serviço</button>
+            <button type="button" id="btnSalvarSrv" class="btn-primary" style="margin-top:0;" onclick="cadastrarServico()">Salvar Serviço</button>
           </div>
           <div id="adminServicosList"></div>
         </div>
-      </div>
 
     </section>
   </main>
@@ -964,31 +967,88 @@
       await recarregarAdmin();
     }
 
+    function editarServico(id) {
+      const s = state.adminData.servicos.find(item => item.ID === id);
+      if (!s) return;
+      document.getElementById('srvId').value = s.ID;
+      document.getElementById('srvNome').value = s.Nome;
+      document.getElementById('srvDuracao').value = s.Duracao_Min;
+      document.getElementById('srvPreco').value = s.Preco;
+      document.getElementById('srvFormTitle').textContent = `Editando: ${s.Nome}`;
+      document.getElementById('btnSalvarSrv').textContent = 'Atualizar Serviço';
+      document.getElementById('btnCancelarEdicaoSrv').classList.remove('hidden');
+      document.getElementById('srvNome').focus();
+    }
+
+    function limparFormServico() {
+      document.getElementById('srvId').value = '';
+      document.getElementById('srvNome').value = '';
+      document.getElementById('srvDuracao').value = '30';
+      document.getElementById('srvPreco').value = '';
+      document.getElementById('srvFormTitle').textContent = 'Cadastrar Novo Serviço';
+      document.getElementById('btnSalvarSrv').textContent = 'Salvar Serviço';
+      document.getElementById('btnCancelarEdicaoSrv').classList.add('hidden');
+    }
+
+    async function alternarStatusServico(id) {
+      const s = state.adminData.servicos.find(item => item.ID === id);
+      if (!s) return;
+      const novoStatus = s.Ativo === 'SIM' ? 'NÃO' : 'SIM';
+      await postAPI({
+        action: 'salvarServico',
+        pin: state.adminPin,
+        dados: {
+          id: s.ID,
+          nome: s.Nome,
+          duracao: s.Duracao_Min,
+          preco: s.Preco,
+          ativo: novoStatus
+        }
+      });
+      await recarregarAdmin();
+      await carregarDadosIniciais();
+    }
+
     async function cadastrarServico() {
+      const id = document.getElementById('srvId').value;
+      const existente = id ? state.adminData.servicos.find(item => item.ID === id) : null;
       const dados = {
+        id: id || null,
         nome: document.getElementById('srvNome').value.trim(),
         duracao: document.getElementById('srvDuracao').value,
-        preco: document.getElementById('srvPreco').value
+        preco: document.getElementById('srvPreco').value,
+        ativo: existente ? existente.Ativo : 'SIM'
       };
       if (!dados.nome || !dados.preco) return alert('Preencha nome e valor.');
+      const btn = document.getElementById('btnSalvarSrv');
+      btn.disabled = true;
+      btn.textContent = 'Salvando...';
       await postAPI({ action: 'salvarServico', pin: state.adminPin, dados });
-      document.getElementById('srvNome').value = '';
-      document.getElementById('srvPreco').value = '';
+      btn.disabled = false;
+      limparFormServico();
       await recarregarAdmin();
       await carregarDadosIniciais();
     }
 
     function renderAdminServicos() {
       const el = document.getElementById('adminServicosList');
-      el.innerHTML = state.adminData.servicos.map(s => `
-        <div class="agenda-item">
+      el.innerHTML = state.adminData.servicos.map(s => {
+        const ativo = s.Ativo === 'SIM';
+        return `
+        <div class="agenda-item ${ativo ? '' : 'Cancelado'}">
           <div>
             <strong>${s.Nome}</strong>
             <div style="font-size:0.82rem; color:var(--text-secondary);">Duração: ${s.Duracao_Min} min • Valor: ${formatBRL(s.Preco)}</div>
           </div>
-          <span class="badge badge-Agendado">${s.Ativo}</span>
+          <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <span class="badge ${ativo ? 'badge-Agendado' : 'badge-Cancelado'}">${ativo ? 'Ativo' : 'Inativo'}</span>
+            <button class="btn-mini" onclick="editarServico('${s.ID}')">Editar</button>
+            <button class="btn-mini" style="color:${ativo ? '#f87171' : 'var(--emerald)'};" onclick="alternarStatusServico('${s.ID}')">
+              ${ativo ? 'Desativar' : 'Reativar'}
+            </button>
+          </div>
         </div>
-      `).join('');
+      `}).join('');
     }
 
     function switchAdminTab(tab, btn) {
