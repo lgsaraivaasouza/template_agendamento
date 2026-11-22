@@ -3,6 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- PWA & Otimização Mobile (SARAIVA LABS) -->
+  <meta name="theme-color" content="#090d16" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Agendamento" />
+  <link id="appleTouchIcon" rel="apple-touch-icon" href="https://cdn.shopify.com/s/files/1/0675/1977/4808/files/22243.png?v=1794152561" />
+  <link id="pwaManifest" rel="manifest" href="" />
   <title>Agendamento Online | SARAIVA LABS</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -752,6 +760,7 @@
         }
         if (state.config.LOGO_URL) {
           document.getElementById('clientLogo').src = state.config.LOGO_URL;
+          configurarPWA();
         }
 
         renderServicos();
@@ -1204,5 +1213,32 @@
       if (!iso || !iso.includes('-')) return iso;
       const [y, m, d] = iso.split('-');
       return `${d}/${m}/${y}`;
+    }
+
+    function configurarPWA() {
+      const nomeApp = state.config.NOME_ESTABELECIMENTO || 'Agendamento Online';
+      const logoApp = state.config.LOGO_URL || 'https://cdn.shopify.com/s/files/1/0675/1977/4808/files/22243.png?v=1794152561';
+
+      // Atualiza ícone e título para iPhone / iPad
+      document.getElementById('appleTouchIcon').href = logoApp;
+      const appleTitle = document.querySelector('meta[name="apple-mobile-web-app-title"]');
+      if (appleTitle) appleTitle.setAttribute('content', nomeApp);
+
+      // Gera o manifest.json exclusivo para a URL atual (?c=cliente)
+      const manifest = {
+        name: nomeApp,
+        short_name: nomeApp.slice(0, 20),
+        start_url: window.location.href,
+        display: 'standalone',
+        background_color: '#090d16',
+        theme_color: '#10b981',
+        icons: [
+          { src: logoApp, sizes: '192x192', type: 'image/png' },
+          { src: logoApp, sizes: '512x512', type: 'image/png' }
+        ]
+      };
+
+      const blob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+      document.getElementById('pwaManifest').href = URL.createObjectURL(blob);
     }
   </script>
