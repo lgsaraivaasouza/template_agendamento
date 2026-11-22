@@ -585,6 +585,7 @@
             <button class="admin-tab active" onclick="switchAdminTab('agenda', this)">Agenda do Dia / Semana</button>
             <button class="admin-tab" onclick="switchAdminTab('bloqueios', this)">Bloqueios & Folgas</button>
             <button class="admin-tab" onclick="switchAdminTab('servicos', this)">Serviços & Valores</button>
+            <button class="admin-tab" onclick="switchAdminTab('profissionais', this)">Equipe / Profissionais</button>
           </div>
 
           <div style="display:flex; gap:8px; align-items:center;">
@@ -631,7 +632,21 @@
           </div>
           <div id="adminServicosList"></div>
         </div>
-
+        
+<!-- SUB-ABA 4: PROFISSIONAIS -->
+        <div id="tabProfissionais" class="panel hidden">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+            <h3 class="panel-title" id="proFormTitle">Cadastrar Novo Profissional</h3>
+            <button type="button" id="btnCancelarEdicaoPro" class="btn-mini hidden" onclick="limparFormProfissional()">Cancelar Edição</button>
+          </div>
+          <input type="hidden" id="proId" />
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:10px; margin-bottom:18px;">
+            <input type="text" id="proNome" placeholder="Nome do profissional" />
+            <input type="text" id="proEspecialidade" placeholder="Especialidade (ex: Barbeiro, Manicure)" />
+            <button type="button" id="btnSalvarPro" class="btn-primary" style="margin-top:0;" onclick="cadastrarProfissional()">Salvar Profissional</button>
+          </div>
+          <div id="adminProfissionaisList"></div>
+        </div>
     </section>
   </main>
 
@@ -903,6 +918,7 @@
       renderAdminAgenda();
       renderAdminBloqueios();
       renderAdminServicos();
+      renderAdminProfissionais();
     }
 
     function renderAdminAgenda() {
@@ -1082,12 +1098,94 @@
       `}).join('');
     }
 
+    function editarProfissional(id) {
+      const p = state.adminData.profissionais.find(item => item.ID === id);
+      if (!p) return;
+      document.getElementById('proId').value = p.ID;
+      document.getElementById('proNome').value = p.Nome;
+      document.getElementById('proEspecialidade').value = p.Especialidade;
+      document.getElementById('proFormTitle').textContent = `Editando: ${p.Nome}`;
+      document.getElementById('btnSalvarPro').textContent = 'Atualizar Profissional';
+      document.getElementById('btnCancelarEdicaoPro').classList.remove('hidden');
+      document.getElementById('proNome').focus();
+    }
+
+    function limparFormProfissional() {
+      document.getElementById('proId').value = '';
+      document.getElementById('proNome').value = '';
+      document.getElementById('proEspecialidade').value = '';
+      document.getElementById('proFormTitle').textContent = 'Cadastrar Novo Profissional';
+      document.getElementById('btnSalvarPro').textContent = 'Salvar Profissional';
+      document.getElementById('btnCancelarEdicaoPro').classList.add('hidden');
+    }
+
+    async function alternarStatusProfissional(id) {
+      const p = state.adminData.profissionais.find(item => item.ID === id);
+      if (!p) return;
+      const novoStatus = p.Ativo === 'SIM' ? 'NÃO' : 'SIM';
+      await postAPI({
+        action: 'salvarProfissional',
+        pin: state.adminPin,
+        dados: {
+          id: p.ID,
+          nome: p.Nome,
+          especialidade: p.Especialidade,
+          ativo: novoStatus
+        }
+      });
+      await recarregarAdmin();
+      await carregarDadosIniciais();
+    }
+
+    async function cadastrarProfissional() {
+      const id = document.getElementById('proId').value;
+      const existente = id ? state.adminData.profissionais.find(item => item.ID === id) : null;
+      const dados = {
+        id: id || null,
+        nome: document.getElementById('proNome').value.trim(),
+        especialidade: document.getElementById('proEspecialidade').value.trim() || 'Especialista',
+        ativo: existente ? existente.Ativo : 'SIM'
+      };
+      if (!dados.nome) return alert('Preencha o nome do profissional.');
+      const btn = document.getElementById('btnSalvarPro');
+      btn.disabled = true;
+      btn.textContent = 'Salvando...';
+      await postAPI({ action: 'salvarProfissional', pin: state.adminPin, dados });
+      btn.disabled = false;
+      limparFormProfissional();
+      await recarregarAdmin();
+      popularSelectProfissionaisBloqueio();
+      await carregarDadosIniciais();
+    }
+
+    function renderAdminProfissionais() {
+      const el = document.getElementById('adminProfissionaisList');
+      el.innerHTML = state.adminData.profissionais.map(p => {
+        const ativo = p.Ativo === 'SIM';
+        return `
+        <div class="agenda-item ${ativo ? '' : 'Cancelado'}">
+          <div>
+            <strong>${p.Nome}</strong>
+            <div style="font-size:0.82rem; color:var(--text-secondary);">${p.Especialidade}</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <span class="badge ${ativo ? 'badge-Agendado' : 'badge-Cancelado'}">${ativo ? 'Ativo' : 'Inativo'}</span>
+            <button class="btn-mini" onclick="editarProfissional('${p.ID}')">Editar</button>
+            <button class="btn-mini" style="color:${ativo ? '#f87171' : 'var(--emerald)'};" onclick="alternarStatusProfissional('${p.ID}')">
+              ${ativo ? 'Desativar' : 'Reativar'}
+            </button>
+          </div>
+        </div>
+      `}).join('');
+    }
+
     function switchAdminTab(tab, btn) {
       document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       document.getElementById('tabAgenda').classList.toggle('hidden', tab !== 'agenda');
       document.getElementById('tabBloqueios').classList.toggle('hidden', tab !== 'bloqueios');
       document.getElementById('tabServicos').classList.toggle('hidden', tab !== 'servicos');
+      document.getElementById('tabProfissionais').classList.toggle('hidden', tab !== 'profissionais');
     }
 
     async function postAPI(body) {
