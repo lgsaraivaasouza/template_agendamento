@@ -663,7 +663,35 @@
     // ========================================================
     // CONFIGURAÇÃO DE IMPLANTAÇÃO (POR CLIENTE / SUBDOMÍNIO)
     // ========================================================
-    const API_URL = 'https://script.google.com/macros/s/AKfycbzvGlFTA-JoVj1QW5wtKd_DDB6SVLUT-ThQFpoy6JPIMYe7T-I5_L1YrNkn0sH9_IaAww/exec';
+    // ========================================================
+    // MAPA DE CLIENTES (MULTI-TENANT SARAIVA LABS)
+    // ========================================================
+    const CLIENTES_MAP = {
+      // Ambiente padrão de demonstração comercial (abre quando não há ?c= na URL)
+      'demo': 'https://script.google.com/macros/s/AKfycbzvGlFTA-JoVj1QW5wtKd_DDB6SVLUT-ThQFpoy6JPIMYe7T-I5_L1YrNkn0sH9_IaAww/exec',
+
+      // Exemplo de como adicionar futuros clientes pagantes:
+      // 'barbearia-centro': 'https://script.google.com/macros/s/ID_DO_CLIENTE_1/exec',
+      // 'studio-bella': 'https://script.google.com/macros/s/ID_DO_CLIENTE_2/exec'
+    };
+
+    // Identifica o cliente pela URL (?c=slug) ou pelo subdomínio
+    function resolverClienteAtual() {
+      const params = new URLSearchParams(window.location.search);
+      const slugParam = (params.get('c') || '').toLowerCase().trim();
+      if (slugParam) return slugParam;
+
+      // Suporte automático caso use subdomínio próprio (ex: barbearia.saraivalabs.com.br)
+      const host = window.location.hostname.toLowerCase();
+      if (host.endsWith('.saraivalabs.com.br') && !host.startsWith('agenda.') && !host.startsWith('portal.')) {
+        return host.split('.')[0];
+      }
+
+      return 'demo';
+    }
+
+    const CLIENTE_ATUAL = resolverClienteAtual();
+    const API_URL = CLIENTES_MAP[CLIENTE_ATUAL] || null;
 
     // Estado Global
     let state = {
@@ -679,6 +707,19 @@
 
     // Inicialização
     document.addEventListener('DOMContentLoaded', async () => {
+      if (!API_URL) {
+        document.querySelector('main.container').innerHTML = `
+          <div class="login-card" style="max-width:460px;">
+            <img src="https://cdn.shopify.com/s/files/1/0675/1977/4808/files/22243.png?v=1794152561" alt="SARAIVA LABS" />
+            <h2 style="font-size:1.2rem; margin-bottom:8px;">Agenda não localizada</h2>
+            <p class="muted-msg">O endereço acessado não corresponde a nenhum estabelecimento ativo na plataforma.</p>
+            <a href="?c=demo" class="btn-primary" style="display:block; text-decoration:none; margin-top:16px;">Acessar Ambiente Demonstração</a>
+          </div>
+        `;
+        document.getElementById('clientName').textContent = 'SARAIVA LABS';
+        return;
+      }
+
       const hoje = new Date().toISOString().split('T')[0];
       document.getElementById('bookingDate').value = hoje;
       document.getElementById('bookingDate').min = hoje;
@@ -706,6 +747,14 @@
         if (state.config.LOGO_URL) {
           document.getElementById('clientLogo').src = state.config.LOGO_URL;
         }
+
+        renderServicos();
+        renderProfissionais();
+      } catch (err) {
+        document.getElementById('servicesList').innerHTML =
+          `<p class="muted-msg" style="color:#f87171;">Não foi possível conectar ao banco de dados deste estabelecimento.</p>`;
+      }
+    }
 
         renderServicos();
         renderProfissionais();
