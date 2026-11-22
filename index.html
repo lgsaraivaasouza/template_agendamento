@@ -661,27 +661,21 @@
 
   <script>
     // ========================================================
-    // CONFIGURAÇÃO DE IMPLANTAÇÃO (POR CLIENTE / SUBDOMÍNIO)
-    // ========================================================
-    // ========================================================
     // MAPA DE CLIENTES (MULTI-TENANT SARAIVA LABS)
     // ========================================================
     const CLIENTES_MAP = {
-      // Ambiente padrão de demonstração comercial (abre quando não há ?c= na URL)
-      'demo': 'https://script.google.com/macros/s/AKfycbzvGlFTA-JoVj1QW5wtKd_DDB6SVLUT-ThQFpoy6JPIMYe7T-I5_L1YrNkn0sH9_IaAww/exec',
+      // Cole aqui a URL /exec da sua planilha modelo:
+      'demo': 'COLE_AQUI_A_SUA_URL_DO_WEB_APP'
 
-      // Exemplo de como adicionar futuros clientes pagantes:
-      // 'barbearia-centro': 'https://script.google.com/macros/s/ID_DO_CLIENTE_1/exec',
-      // 'studio-bella': 'https://script.google.com/macros/s/ID_DO_CLIENTE_2/exec'
+      // Futuros clientes:
+      // 'barbearia-centro': 'https://script.google.com/macros/s/OUTRA_URL/exec'
     };
 
-    // Identifica o cliente pela URL (?c=slug) ou pelo subdomínio
     function resolverClienteAtual() {
       const params = new URLSearchParams(window.location.search);
       const slugParam = (params.get('c') || '').toLowerCase().trim();
       if (slugParam) return slugParam;
 
-      // Suporte automático caso use subdomínio próprio (ex: barbearia.saraivalabs.com.br)
       const host = window.location.hostname.toLowerCase();
       if (host.endsWith('.saraivalabs.com.br') && !host.startsWith('agenda.') && !host.startsWith('portal.')) {
         return host.split('.')[0];
@@ -693,7 +687,6 @@
     const CLIENTE_ATUAL = resolverClienteAtual();
     const API_URL = CLIENTES_MAP[CLIENTE_ATUAL] || null;
 
-    // Estado Global
     let state = {
       config: {},
       servicos: [],
@@ -705,7 +698,6 @@
       adminData: { agendamentos: [], bloqueios: [], servicos: [], profissionais: [] }
     };
 
-    // Inicialização
     document.addEventListener('DOMContentLoaded', async () => {
       if (!API_URL) {
         document.querySelector('main.container').innerHTML = `
@@ -738,7 +730,6 @@
         state.servicos = res.data.servicos || [];
         state.profissionais = res.data.profissionais || [];
 
-        // Aplica White-Label do cliente
         if (state.config.NOME_ESTABELECIMENTO) {
           document.getElementById('clientName').textContent = state.config.NOME_ESTABELECIMENTO;
           document.title = `${state.config.NOME_ESTABELECIMENTO} | Agendamento Online`;
@@ -753,14 +744,6 @@
       } catch (err) {
         document.getElementById('servicesList').innerHTML =
           `<p class="muted-msg" style="color:#f87171;">Não foi possível conectar ao banco de dados deste estabelecimento.</p>`;
-      }
-    }
-
-        renderServicos();
-        renderProfissionais();
-      } catch (err) {
-        document.getElementById('servicesList').innerHTML =
-          `<p class="muted-msg" style="color:#f87171;">Configure a constante <code>API_URL</code> no código para conectar à planilha do cliente.</p>`;
       }
     }
 
@@ -929,7 +912,6 @@
       limiteDate.setDate(limiteDate.getDate() + (range === 'week' ? 7 : 0));
       const limiteStr = limiteDate.toISOString().split('T')[0];
 
-      // KPIs sempre refletem o dia selecionado no filtro
       const doDia = state.adminData.agendamentos.filter(a => a.Data === baseDate);
       const realizado = doDia.filter(a => a.Status === 'Concluído').reduce((acc, a) => acc + Number(a.Valor || 0), 0);
       const previsto = doDia.filter(a => a.Status === 'Agendado').reduce((acc, a) => acc + Number(a.Valor || 0), 0);
@@ -1108,7 +1090,6 @@
       document.getElementById('tabServicos').classList.toggle('hidden', tab !== 'servicos');
     }
 
-    // Helpers
     async function postAPI(body) {
       return fetch(API_URL, {
         method: 'POST',
@@ -1127,5 +1108,3 @@
       return `${d}/${m}/${y}`;
     }
   </script>
-</body>
-</html>
