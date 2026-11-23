@@ -3,59 +3,55 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- PWA e Otimização Mobile (SARAIVA LABS) -->
-  <meta name="theme-color" content="#0b0e17" />
+  <!-- PWA & Otimização Mobile (SARAIVA LABS) -->
+  <meta name="theme-color" content="#090d16" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Agendamento" />
-  <link rel="icon" type="image/png" href="https://lgsaraivaasouza.github.io/midia-saraiva-labs/logo-oficial-saraiva-labs.png" />
-  <link id="appleTouchIcon" rel="apple-touch-icon" href="https://lgsaraivaasouza.github.io/midia-saraiva-labs/logo-oficial-saraiva-labs.png" />
+  <link id="appleTouchIcon" rel="apple-touch-icon" href="https://cdn.shopify.com/s/files/1/0675/1977/4808/files/22243.png?v=1794152561" />
   <link id="pwaManifest" rel="manifest" href="" />
   <title>Agendamento Online | SARAIVA LABS</title>
-  <link rel="stylesheet" href="https://lgsaraivaasouza.github.io/midia-saraiva-labs/theme.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-base: var(--dark-bg, #0b0e17);
-      --bg-surface: var(--dark-surface, #121726);
-      --bg-card: #161d2f;
-      --bg-elevated: #1c253b;
-      --border-subtle: var(--dark-border, #1e2538);
-      --border-active: var(--rubi, #e11d48);
-      --accent: var(--rubi, #e11d48);
-      --accent-hover: var(--rubi-hover, #f43f5e);
-      --accent-dark: var(--rubi-dark, #be123c);
-      --accent-light: var(--rubi-light, #fb7185);
-      --accent-glow: var(--rubi-glow, rgba(225, 29, 72, 0.32));
-      --accent-soft: var(--rubi-soft, rgba(225, 29, 72, 0.14));
-      --text-primary: var(--text-white, #ffffff);
-      --text-secondary: var(--text-light-muted, #94a3b8);
+      --bg-base: #090d16;
+      --bg-surface: #111827;
+      --bg-card: #182234;
+      --bg-elevated: #1e293b;
+      --border-subtle: rgba(148, 163, 184, 0.14);
+      --border-active: #10b981;
+      --emerald: #10b981;
+      --emerald-dark: #059669;
+      --emerald-glow: rgba(16, 185, 129, 0.16);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
       --text-muted: #64748b;
-      --ok: var(--status-ok, #10b981);
-      --ok-light: #34d399;
-      --warning: var(--status-warn, #f59e0b);
-      --info: var(--status-info, #38bdf8);
+      --danger: #ef4444;
+      --warning: #f59e0b;
       --radius-lg: 16px;
       --radius-md: 12px;
       --radius-sm: 8px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body.sl-theme {
-      font-family: var(--font-body, 'Inter', 'Plus Jakarta Sans', -apple-system, sans-serif);
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-base);
+      background-image: radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.08), transparent 45%);
+      color: var(--text-primary);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       line-height: 1.5;
     }
 
-    /* HEADER DARK TECH */
+    /* HEADER */
     .topbar {
-      background: rgba(11, 14, 23, 0.96);
-      backdrop-filter: blur(14px);
+      background: rgba(17, 24, 39, 0.85);
+      backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-subtle);
-      box-shadow: 0 8px 28px rgba(9, 10, 15, 0.14);
       position: sticky;
       top: 0;
       z-index: 40;
@@ -68,7 +64,6 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      flex-wrap: wrap;
     }
     .brand-client {
       display: flex;
@@ -76,32 +71,28 @@
       gap: 12px;
     }
     .brand-client img {
-      width: 44px;
-      height: 44px;
+      width: 42px;
+      height: 42px;
       border-radius: 10px;
-      object-fit: contain;
-      background: var(--bg-base);
+      object-fit: cover;
+      background: var(--bg-card);
       border: 1px solid var(--border-subtle);
-      mix-blend-mode: lighten;
-      filter: drop-shadow(0 0 8px rgba(225, 29, 72, 0.45));
     }
     .brand-client h1 {
-      font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
-      font-size: 1.06rem;
-      font-weight: 800;
-      letter-spacing: -0.01em;
-      color: var(--text-primary);
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
     }
     .brand-client span {
       display: block;
       font-size: 0.75rem;
-      color: var(--accent-light);
-      font-weight: 700;
+      color: var(--emerald);
+      font-weight: 600;
     }
 
     .nav-switch {
       display: flex;
-      background: var(--bg-surface);
+      background: var(--bg-base);
       padding: 4px;
       border-radius: 10px;
       border: 1px solid var(--border-subtle);
@@ -110,21 +101,16 @@
       background: transparent;
       border: none;
       color: var(--text-secondary);
-      padding: 8px 16px;
+      padding: 7px 14px;
       border-radius: 7px;
-      font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
       font-size: 0.82rem;
-      font-weight: 700;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
     }
-    .nav-switch button:hover {
-      color: var(--text-primary);
-    }
     .nav-switch button.active {
-      background: var(--accent);
-      color: var(--text-primary);
-      box-shadow: 0 4px 14px var(--accent-glow);
+      background: var(--emerald);
+      color: #042f2e;
     }
 
     /* CONTAINER */
@@ -136,7 +122,7 @@
       flex: 1;
     }
 
-    /* STEPPER E CARDS MODULARES DARK TECH */
+    /* STEPPER / CARDS */
     .grid-booking {
       display: grid;
       grid-template-columns: 1.45fr 1fr;
@@ -148,14 +134,11 @@
     }
 
     .panel {
-      background: var(--bg-base);
+      background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
-      border-top: 3px solid var(--accent);
       border-radius: var(--radius-lg);
       padding: 22px;
       margin-bottom: 18px;
-      color: var(--text-primary);
-      box-shadow: var(--shadow-card, 0 14px 30px rgba(11, 14, 23, 0.12));
     }
     .panel-header {
       display: flex;
@@ -164,37 +147,34 @@
       margin-bottom: 16px;
     }
     .step-badge {
-      width: 28px;
-      height: 28px;
-      border-radius: 8px;
-      background: var(--accent-soft);
-      color: var(--accent-light);
-      border: 1px solid rgba(225, 29, 72, 0.4);
+      width: 26px;
+      height: 26px;
+      border-radius: 7px;
+      background: var(--emerald-glow);
+      color: var(--emerald);
+      border: 1px solid rgba(16, 185, 129, 0.35);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 800;
     }
     .panel-title {
-      font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
-      font-size: 1.02rem;
-      font-weight: 800;
-      color: var(--text-primary);
+      font-size: 1rem;
+      font-weight: 700;
     }
 
-    /* OPTION CARDS (SERVIÇOS E PROFISSIONAIS) */
+    /* OPTION CARDS (SERVIÇOS / PROFISSIONAIS) */
     .options-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
       gap: 12px;
     }
     .option-card {
-      background: var(--bg-surface);
+      background: var(--bg-card);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
-      padding: 15px 16px;
+      padding: 14px 16px;
       cursor: pointer;
       transition: all 0.18s ease;
       display: flex;
@@ -203,19 +183,15 @@
       gap: 8px;
     }
     .option-card:hover {
-      border-color: rgba(251, 113, 133, 0.55);
-      transform: translateY(-2px);
+      border-color: rgba(16, 185, 129, 0.5);
+      transform: translateY(-1px);
     }
     .option-card.selected {
-      background: linear-gradient(145deg, rgba(225, 29, 72, 0.18), var(--bg-surface));
-      border-color: var(--accent);
-      box-shadow: 0 0 0 1px var(--accent), 0 8px 20px rgba(225, 29, 72, 0.16);
+      background: linear-gradient(145deg, rgba(16, 185, 129, 0.14), var(--bg-card));
+      border-color: var(--emerald);
+      box-shadow: 0 0 0 1px var(--emerald);
     }
-    .option-name {
-      font-weight: 700;
-      font-size: 0.94rem;
-      color: var(--text-primary);
-    }
+    .option-name { font-weight: 700; font-size: 0.94rem; }
     .option-meta {
       display: flex;
       justify-content: space-between;
@@ -224,12 +200,12 @@
       color: var(--text-secondary);
     }
     .price-tag {
-      color: var(--accent-light);
-      font-weight: 800;
-      font-size: 0.92rem;
+      color: var(--emerald);
+      font-weight: 700;
+      font-size: 0.9rem;
     }
 
-    /* DATA E HORÁRIOS */
+    /* DATE & SLOTS */
     .date-row {
       display: flex;
       gap: 12px;
@@ -238,7 +214,7 @@
       flex-wrap: wrap;
     }
     input[type="date"], input[type="text"], input[type="tel"], input[type="password"], input[type="number"], input[type="time"], select {
-      background: var(--bg-surface);
+      background: var(--bg-card);
       border: 1px solid var(--border-subtle);
       color: var(--text-primary);
       padding: 11px 14px;
@@ -247,17 +223,10 @@
       font-size: 0.92rem;
       width: 100%;
       outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      transition: border-color 0.2s;
     }
-    input:focus, select:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.18);
-    }
-    input[type="date"]::-webkit-calendar-picker-indicator,
-    input[type="time"]::-webkit-calendar-picker-indicator {
-      filter: invert(1);
-      cursor: pointer;
-    }
+    input:focus, select:focus { border-color: var(--emerald); }
+    input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
 
     .slots-grid {
       display: grid;
@@ -265,39 +234,32 @@
       gap: 9px;
     }
     .slot-btn {
-      background: var(--bg-surface);
+      background: var(--bg-card);
       border: 1px solid var(--border-subtle);
       color: var(--text-primary);
       padding: 10px 6px;
       border-radius: var(--radius-sm);
-      font-weight: 700;
+      font-weight: 600;
       font-size: 0.88rem;
       cursor: pointer;
       transition: all 0.15s;
     }
-    .slot-btn:hover {
-      border-color: var(--accent-light);
-      background: var(--bg-card);
-    }
+    .slot-btn:hover { border-color: var(--emerald); }
     .slot-btn.selected {
-      background: var(--accent);
-      color: var(--text-primary);
-      border-color: var(--accent-light);
-      box-shadow: 0 4px 14px var(--accent-glow);
+      background: var(--emerald);
+      color: #042f2e;
+      border-color: var(--emerald);
       font-weight: 800;
     }
 
-    /* RESUMO E CHECKOUT */
+    /* SUMMARY & CTA */
     .summary-box {
       position: sticky;
-      top: 90px;
-      background: var(--bg-base);
+      top: 86px;
+      background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
-      border-top: 4px solid var(--accent);
       border-radius: var(--radius-lg);
-      padding: 24px;
-      color: var(--text-primary);
-      box-shadow: var(--shadow-card, 0 14px 30px rgba(11, 14, 23, 0.14));
+      padding: 22px;
     }
     .summary-line {
       display: flex;
@@ -305,7 +267,6 @@
       padding: 10px 0;
       border-bottom: 1px solid var(--border-subtle);
       font-size: 0.88rem;
-      gap: 12px;
     }
     .summary-line span:first-child { color: var(--text-secondary); }
     .summary-line strong { color: var(--text-primary); text-align: right; }
@@ -314,7 +275,7 @@
     .form-group label {
       display: block;
       font-size: 0.8rem;
-      font-weight: 700;
+      font-weight: 600;
       color: var(--text-secondary);
       margin-bottom: 6px;
     }
@@ -322,121 +283,77 @@
     .btn-primary {
       width: 100%;
       margin-top: 18px;
-      background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-      color: var(--text-primary);
-      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: linear-gradient(135deg, var(--emerald), var(--emerald-dark));
+      color: #022c22;
+      border: none;
       padding: 13px 18px;
       border-radius: var(--radius-md);
-      font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
       font-weight: 800;
       font-size: 0.95rem;
       cursor: pointer;
-      box-shadow: 0 6px 20px var(--accent-glow);
-      transition: background 0.2s, transform 0.15s, box-shadow 0.2s, opacity 0.2s;
+      transition: opacity 0.2s, transform 0.15s;
     }
-    .btn-primary:hover:not(:disabled) {
-      background: linear-gradient(135deg, var(--accent-hover), var(--accent));
-      transform: translateY(-1px);
-      box-shadow: 0 10px 26px rgba(225, 29, 72, 0.45);
-    }
-    .btn-primary:disabled {
-      opacity: 0.42;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
+    .btn-primary:hover:not(:disabled) { opacity: 0.93; transform: translateY(-1px); }
+    .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
 
     .btn-secondary {
-      background: var(--bg-surface);
+      background: var(--bg-elevated);
       color: var(--text-primary);
       border: 1px solid var(--border-subtle);
-      padding: 10px 14px;
+      padding: 9px 14px;
       border-radius: var(--radius-sm);
-      font-weight: 700;
+      font-weight: 600;
       font-size: 0.84rem;
       cursor: pointer;
-      transition: border-color 0.2s, background 0.2s;
     }
-    .btn-secondary:hover {
-      border-color: var(--accent-light);
-      background: var(--bg-card);
-    }
+    .btn-secondary:hover { border-color: var(--emerald); }
 
-    /* PAINEL ADMIN */
+    /* ADMIN PANEL */
     .kpi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 14px;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
     }
     .kpi-card {
-      background: var(--bg-base);
+      background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
-      border-top: 3px solid var(--accent);
       border-radius: var(--radius-md);
-      padding: 18px 20px;
-      box-shadow: var(--shadow-card, 0 14px 30px rgba(11, 14, 23, 0.12));
+      padding: 18px;
     }
-    .kpi-card.kpi-ok { border-top-color: var(--ok); }
-    .kpi-card.kpi-white { border-top-color: var(--text-primary); }
-
-    .kpi-label {
-      font-size: 0.76rem;
-      color: var(--text-secondary);
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.7px;
-    }
-    .kpi-value {
-      font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
-      font-size: 1.65rem;
-      font-weight: 900;
-      margin-top: 6px;
-      color: var(--text-primary);
-    }
-    .kpi-value.ok-color { color: var(--ok-light); }
-    .kpi-value.rubi-color { color: var(--accent-light); }
+    .kpi-label { font-size: 0.78rem; color: var(--text-secondary); font-weight: 600; }
+    .kpi-value { font-size: 1.55rem; font-weight: 800; margin-top: 6px; color: var(--text-primary); }
+    .kpi-value.emerald { color: var(--emerald); }
 
     .admin-toolbar {
-      background: var(--bg-base);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      padding: 14px 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 12px;
       margin-bottom: 18px;
-      box-shadow: var(--shadow-card, 0 14px 30px rgba(11, 14, 23, 0.1));
     }
     .admin-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
     .admin-tab {
-      background: var(--bg-surface);
+      background: var(--bg-card);
       border: 1px solid var(--border-subtle);
       color: var(--text-secondary);
       padding: 8px 14px;
       border-radius: var(--radius-sm);
-      font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
-      font-size: 0.82rem;
-      font-weight: 700;
+      font-size: 0.84rem;
+      font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s;
-    }
-    .admin-tab:hover {
-      color: var(--text-primary);
-      border-color: rgba(251, 113, 133, 0.45);
     }
     .admin-tab.active {
-      background: var(--accent);
-      color: var(--text-primary);
-      border-color: var(--accent-light);
-      box-shadow: 0 4px 14px var(--accent-glow);
+      background: var(--emerald-glow);
+      color: var(--emerald);
+      border-color: var(--emerald);
     }
 
     .agenda-item {
-      background: var(--bg-surface);
+      background: var(--bg-card);
       border: 1px solid var(--border-subtle);
-      border-left: 4px solid var(--accent);
+      border-left: 4px solid var(--emerald);
       border-radius: var(--radius-md);
       padding: 14px 16px;
       margin-bottom: 10px;
@@ -445,82 +362,52 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 12px;
-      color: var(--text-primary);
     }
-    .agenda-item.Concluído { border-left-color: var(--ok); opacity: 0.9; }
-    .agenda-item.Cancelado { border-left-color: var(--text-muted); opacity: 0.58; }
+    .agenda-item.Concluído { border-left-color: #3b82f6; opacity: 0.85; }
+    .agenda-item.Cancelado { border-left-color: var(--danger); opacity: 0.55; }
 
     .badge {
       display: inline-block;
-      padding: 4px 10px;
+      padding: 3px 9px;
       border-radius: 99px;
       font-size: 0.72rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
+      font-weight: 700;
     }
-    .badge-Agendado {
-      background: var(--accent-soft);
-      color: var(--accent-light);
-      border: 1px solid rgba(225, 29, 72, 0.35);
-    }
-    .badge-Concluído {
-      background: rgba(16, 185, 129, 0.16);
-      color: var(--ok-light);
-      border: 1px solid rgba(16, 185, 129, 0.32);
-    }
-    .badge-Cancelado {
-      background: rgba(148, 163, 184, 0.14);
-      color: var(--text-secondary);
-      border: 1px solid rgba(148, 163, 184, 0.28);
-    }
+    .badge-Agendado { background: rgba(16, 185, 129, 0.15); color: var(--emerald); }
+    .badge-Concluído { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+    .badge-Cancelado { background: rgba(239, 68, 68, 0.15); color: #f87171; }
 
-    .status-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+    .status-actions { display: flex; gap: 6px; }
     .btn-mini {
-      padding: 6px 11px;
+      padding: 6px 10px;
       border-radius: 6px;
       border: 1px solid var(--border-subtle);
-      background: var(--bg-base);
+      background: var(--bg-surface);
       color: var(--text-primary);
       font-size: 0.76rem;
-      font-weight: 700;
+      font-weight: 600;
       cursor: pointer;
-      transition: border-color 0.2s, background 0.2s;
     }
-    .btn-mini:hover {
-      border-color: var(--accent-light);
-      background: var(--bg-card);
-    }
+    .btn-mini:hover { border-color: var(--emerald); }
 
     /* LOGIN BOX */
     .login-card {
-      max-width: 420px;
-      margin: 44px auto;
-      background: var(--bg-base);
+      max-width: 400px;
+      margin: 40px auto;
+      background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
-      border-top: 4px solid var(--accent);
       border-radius: var(--radius-lg);
-      padding: 32px 28px;
+      padding: 28px;
       text-align: center;
-      color: var(--text-primary);
-      box-shadow: var(--shadow-hero, 0 24px 54px rgba(11, 14, 23, 0.16));
     }
-    .login-card img {
-      width: 60px;
-      height: 60px;
-      object-fit: contain;
-      border-radius: 12px;
-      margin-bottom: 14px;
-      mix-blend-mode: lighten;
-      filter: drop-shadow(0 0 10px rgba(225, 29, 72, 0.5));
-    }
+    .login-card img { width: 54px; margin-bottom: 12px; }
 
     /* MODAL CONFIRMAÇÃO */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(9, 10, 15, 0.84);
-      backdrop-filter: blur(8px);
+      background: rgba(2, 6, 23, 0.82);
+      backdrop-filter: blur(6px);
       display: none;
       align-items: center;
       justify-content: center;
@@ -530,22 +417,19 @@
     .modal-backdrop.open { display: flex; }
     .modal-box {
       background: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
-      border-top: 4px solid var(--accent);
+      border: 1px solid var(--emerald);
       border-radius: var(--radius-lg);
       max-width: 420px;
       width: 100%;
-      padding: 28px;
+      padding: 26px;
       text-align: center;
-      color: var(--text-primary);
-      box-shadow: 0 25px 55px rgba(0, 0, 0, 0.65);
     }
 
-    /* FOOTER DARK TECH SARAIVA LABS */
+    /* FOOTER SARAIVA LABS */
     .footer {
       border-top: 1px solid var(--border-subtle);
-      background: var(--bg-base);
-      padding: 20px;
+      background: var(--bg-surface);
+      padding: 18px 20px;
       margin-top: 40px;
     }
     .footer-inner {
@@ -556,47 +440,31 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 10px;
-      font-size: 0.8rem;
-      color: var(--text-secondary);
+      font-size: 0.78rem;
+      color: var(--text-muted);
     }
     .saraiva-badge {
       display: inline-flex;
       align-items: center;
-      gap: 9px;
+      gap: 8px;
       color: var(--text-secondary);
-      font-family: var(--font-heading, 'Plus Jakarta Sans', sans-serif);
-      font-weight: 700;
+      font-weight: 600;
       text-decoration: none;
-      letter-spacing: 0.5px;
     }
-    .saraiva-badge img {
-      width: 26px;
-      height: 26px;
-      border-radius: 6px;
-      object-fit: contain;
-      mix-blend-mode: lighten;
-      filter: drop-shadow(0 0 6px rgba(225, 29, 72, 0.45));
-    }
-    .saraiva-badge strong {
-      color: var(--text-primary);
-      font-weight: 900;
-    }
-    .saraiva-badge .brand-light {
-      color: rgba(255, 255, 255, 0.85);
-      font-weight: 400;
-    }
+    .saraiva-badge img { width: 22px; height: 22px; border-radius: 5px; }
+    .saraiva-badge strong { color: var(--emerald); }
 
     .hidden { display: none !important; }
     .muted-msg { color: var(--text-secondary); font-size: 0.88rem; padding: 12px 0; }
   </style>
 </head>
-<body class="sl-theme">
+<body>
 
   <!-- TOPBAR PERSONALIZÁVEL POR CLIENTE -->
   <header class="topbar">
     <div class="topbar-inner">
       <div class="brand-client">
-        <img id="clientLogo" src="https://lgsaraivaasouza.github.io/midia-saraiva-labs/logo-oficial-saraiva-labs.png" alt="Logo" />
+        <img id="clientLogo" src="https://cdn.shopify.com/s/files/1/0675/1977/4808/files/22243.png?v=1794152561" alt="Logo" />
         <div>
           <h1 id="clientName">Carregando Estabelecimento...</h1>
           <span>Agendamento Online • Confirmação Imediata</span>
@@ -639,7 +507,7 @@
           </div>
         </div>
 
-        <!-- PASSO 3: DATA E HORÁRIO -->
+        <!-- PASSO 3: DATA & HORÁRIO -->
         <div class="panel">
           <div class="panel-header">
             <span class="step-badge">3</span>
@@ -660,13 +528,13 @@
       <aside class="summary-box">
         <div class="panel-header">
           <span class="step-badge">4</span>
-          <h2 class="panel-title">Resumo e Confirmação</h2>
+          <h2 class="panel-title">Resumo & Confirmação</h2>
         </div>
 
         <div class="summary-line"><span>Serviço</span><strong id="sumService">—</strong></div>
         <div class="summary-line"><span>Profissional</span><strong id="sumPro">—</strong></div>
         <div class="summary-line"><span>Data e Hora</span><strong id="sumDateTime">—</strong></div>
-        <div class="summary-line"><span>Investimento</span><strong id="sumPrice" style="color:var(--accent-light);">R$ 0,00</strong></div>
+        <div class="summary-line"><span>Investimento</span><strong id="sumPrice" style="color:var(--emerald);">R$ 0,00</strong></div>
 
         <div class="form-group">
           <label for="custName">Seu Nome Completo</label>
@@ -690,45 +558,45 @@
 
       <!-- TELA DE ACESSO (PIN) -->
       <div id="adminLoginBox" class="login-card">
-        <img src="https://lgsaraivaasouza.github.io/midia-saraiva-labs/logo-oficial-saraiva-labs.png" alt="SARAIVA LABS" />
-        <h2 style="font-size:1.18rem; font-weight:800; margin-bottom:6px;">Acesso Restrito ao Gestor</h2>
+        <img src="https://cdn.shopify.com/s/files/1/0675/1977/4808/files/22243.png?v=1794152561" alt="SARAIVA LABS" />
+        <h2 style="font-size:1.15rem; margin-bottom:6px;">Acesso Restrito ao Gestor</h2>
         <p class="muted-msg" style="padding-top:0;">Insira o PIN administrativo do estabelecimento.</p>
         <div class="form-group" style="text-align:left;">
           <input type="password" id="adminPinInput" placeholder="••••" onkeydown="if(event.key==='Enter') autenticarAdmin()" />
         </div>
         <button class="btn-primary" onclick="autenticarAdmin()">Entrar no Painel</button>
-        <p style="margin-top:16px; font-size:0.74rem; color:var(--text-secondary);">
-          Powered by <strong style="color:var(--text-primary);">SARAIVA</strong> <span style="color:rgba(255,255,255,0.8);">LABS</span>
+        <p style="margin-top:16px; font-size:0.72rem; color:var(--text-muted);">
+          Powered by <strong style="color:var(--emerald);">SARAIVA LABS</strong>
         </p>
       </div>
 
       <!-- DASHBOARD AUTENTICADO -->
       <div id="adminDashboard" class="hidden">
-        <!-- RESUMO FINANCEIRO E OPERACIONAL DO DIA -->
+        <!-- RESUMO FINANCEIRO & OPERACIONAL DO DIA -->
         <div class="kpi-grid">
-          <div class="kpi-card kpi-ok">
+          <div class="kpi-card">
             <div class="kpi-label">Faturamento Concluído (Dia)</div>
-            <div class="kpi-value ok-color" id="kpiRealizado">R$ 0,00</div>
+            <div class="kpi-value emerald" id="kpiRealizado">R$ 0,00</div>
           </div>
-          <div class="kpi-card kpi-white">
+          <div class="kpi-card">
             <div class="kpi-label">Previsão Agendada (Dia)</div>
             <div class="kpi-value" id="kpiPrevisto">R$ 0,00</div>
           </div>
           <div class="kpi-card">
             <div class="kpi-label">Atendimentos Ativos (Dia)</div>
-            <div class="kpi-value rubi-color" id="kpiAtendimentos">0</div>
+            <div class="kpi-value" id="kpiAtendimentos">0</div>
           </div>
         </div>
 
         <div class="admin-toolbar">
           <div class="admin-tabs">
             <button class="admin-tab active" onclick="switchAdminTab('agenda', this)">Agenda do Dia / Semana</button>
-            <button class="admin-tab" onclick="switchAdminTab('bloqueios', this)">Bloqueios e Folgas</button>
-            <button class="admin-tab" onclick="switchAdminTab('servicos', this)">Serviços e Valores</button>
+            <button class="admin-tab" onclick="switchAdminTab('bloqueios', this)">Bloqueios & Folgas</button>
+            <button class="admin-tab" onclick="switchAdminTab('servicos', this)">Serviços & Valores</button>
             <button class="admin-tab" onclick="switchAdminTab('profissionais', this)">Equipe / Profissionais</button>
           </div>
 
-          <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+          <div style="display:flex; gap:8px; align-items:center;">
             <input type="date" id="adminFilterDate" style="width:auto;" onchange="renderAdminAgenda()" />
             <select id="adminFilterRange" style="width:auto;" onchange="renderAdminAgenda()">
               <option value="day">Visão do Dia</option>
@@ -772,8 +640,8 @@
           </div>
           <div id="adminServicosList"></div>
         </div>
-
-        <!-- SUB-ABA 4: PROFISSIONAIS -->
+        
+<!-- SUB-ABA 4: PROFISSIONAIS -->
         <div id="tabProfissionais" class="panel hidden">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
             <h3 class="panel-title" id="proFormTitle">Cadastrar Novo Profissional</h3>
@@ -787,7 +655,6 @@
           </div>
           <div id="adminProfissionaisList"></div>
         </div>
-      </div>
     </section>
   </main>
 
@@ -795,7 +662,7 @@
   <div id="confirmModal" class="modal-backdrop">
     <div class="modal-box">
       <div style="font-size:2.2rem; margin-bottom:8px;">✅</div>
-      <h3 style="font-size:1.25rem; font-weight:800; margin-bottom:6px;">Horário Reservado!</h3>
+      <h3 style="font-size:1.2rem; margin-bottom:6px;">Horário Reservado!</h3>
       <p id="modalDetails" class="muted-msg"></p>
       <a id="btnWhatsReceipt" href="#" target="_blank" class="btn-primary" style="display:block; text-decoration:none; margin-top:14px;">
         Enviar Comprovante no WhatsApp
@@ -809,8 +676,8 @@
     <div class="footer-inner">
       <span id="footerClientCopy">© 2026 Todos os direitos reservados.</span>
       <a href="https://saraivalabs.com.br" target="_blank" class="saraiva-badge">
-        <img src="https://lgsaraivaasouza.github.io/midia-saraiva-labs/logo-oficial-saraiva-labs.png" alt="SARAIVA LABS" />
-        <span>Powered by <strong>SARAIVA</strong> <span class="brand-light">LABS</span></span>
+        <img src="https://cdn.shopify.com/s/files/1/0675/1977/4808/files/22243.png?v=1794152561" alt="SARAIVA LABS" />
+        <span>Powered by <strong>SARAIVA LABS</strong></span>
       </a>
     </div>
   </footer>
@@ -819,8 +686,6 @@
     // ========================================================
     // MAPA DE CLIENTES (MULTI-TENANT SARAIVA LABS)
     // ========================================================
-    const DEFAULT_LOGO_URL = 'https://lgsaraivaasouza.github.io/midia-saraiva-labs/logo-oficial-saraiva-labs.png';
-
     const CLIENTES_MAP = {
       // Cole aqui a URL /exec da sua planilha modelo:
       'demo': 'https://script.google.com/macros/s/AKfycbzvGlFTA-JoVj1QW5wtKd_DDB6SVLUT-ThQFpoy6JPIMYe7T-I5_L1YrNkn0sH9_IaAww/exec'
@@ -860,8 +725,8 @@
       if (!API_URL) {
         document.querySelector('main.container').innerHTML = `
           <div class="login-card" style="max-width:460px;">
-            <img src="${DEFAULT_LOGO_URL}" alt="SARAIVA LABS" />
-            <h2 style="font-size:1.2rem; font-weight:800; margin-bottom:8px;">Agenda não localizada</h2>
+            <img src="https://cdn.shopify.com/s/files/1/0675/1977/4808/files/22243.png?v=1794152561" alt="SARAIVA LABS" />
+            <h2 style="font-size:1.2rem; margin-bottom:8px;">Agenda não localizada</h2>
             <p class="muted-msg">O endereço acessado não corresponde a nenhum estabelecimento ativo na plataforma.</p>
             <a href="?c=demo" class="btn-primary" style="display:block; text-decoration:none; margin-top:16px;">Acessar Ambiente Demonstração</a>
           </div>
@@ -895,14 +760,14 @@
         }
         if (state.config.LOGO_URL) {
           document.getElementById('clientLogo').src = state.config.LOGO_URL;
+          configurarPWA();
         }
-        configurarPWA();
 
         renderServicos();
         renderProfissionais();
       } catch (err) {
         document.getElementById('servicesList').innerHTML =
-          `<p class="muted-msg" style="color:var(--accent-light);">Não foi possível conectar ao banco de dados deste estabelecimento.</p>`;
+          `<p class="muted-msg" style="color:#f87171;">Não foi possível conectar ao banco de dados deste estabelecimento.</p>`;
       }
     }
 
@@ -1028,7 +893,7 @@
     }
 
     // ========================================================
-    // NAVEGAÇÃO E PAINEL GESTOR
+    // NAVEGAÇÃO & PAINEL GESTOR
     // ========================================================
     function switchView(view) {
       document.getElementById('viewClient').classList.toggle('hidden', view !== 'client');
@@ -1104,9 +969,9 @@
           <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
             <span class="badge badge-${a.Status}">${a.Status}</span>
             <div class="status-actions">
-              <button class="btn-mini" style="color:var(--ok-light);" onclick="mudarStatus('${a.ID}', 'Concluído')">Concluir</button>
+              <button class="btn-mini" onclick="mudarStatus('${a.ID}', 'Concluído')">Concluir</button>
               <button class="btn-mini" onclick="mudarStatus('${a.ID}', 'Agendado')">Reabrir</button>
-              <button class="btn-mini" style="color:var(--text-secondary);" onclick="mudarStatus('${a.ID}', 'Cancelado')">Cancelar</button>
+              <button class="btn-mini" style="color:#f87171;" onclick="mudarStatus('${a.ID}', 'Cancelado')">Cancelar</button>
             </div>
           </div>
         </div>
@@ -1148,7 +1013,7 @@
             <strong>${formatDataBR(b.Data)} • ${b.Hora_Inicio} às ${b.Hora_Fim}</strong>
             <div style="font-size:0.82rem; color:var(--text-secondary);">Alvo: ${b.Profissional_ID} • Motivo: ${b.Motivo}</div>
           </div>
-          <button class="btn-mini" style="color:var(--accent-light);" onclick="excluirBloqueio('${b.ID}')">Remover</button>
+          <button class="btn-mini" style="color:#f87171;" onclick="excluirBloqueio('${b.ID}')">Remover</button>
         </div>
       `).join('');
     }
@@ -1234,7 +1099,7 @@
           <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
             <span class="badge ${ativo ? 'badge-Agendado' : 'badge-Cancelado'}">${ativo ? 'Ativo' : 'Inativo'}</span>
             <button class="btn-mini" onclick="editarServico('${s.ID}')">Editar</button>
-            <button class="btn-mini" style="color:${ativo ? 'var(--text-secondary)' : 'var(--ok-light)'};" onclick="alternarStatusServico('${s.ID}')">
+            <button class="btn-mini" style="color:${ativo ? '#f87171' : 'var(--emerald)'};" onclick="alternarStatusServico('${s.ID}')">
               ${ativo ? 'Desativar' : 'Reativar'}
             </button>
           </div>
@@ -1315,7 +1180,7 @@
           <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
             <span class="badge ${ativo ? 'badge-Agendado' : 'badge-Cancelado'}">${ativo ? 'Ativo' : 'Inativo'}</span>
             <button class="btn-mini" onclick="editarProfissional('${p.ID}')">Editar</button>
-            <button class="btn-mini" style="color:${ativo ? 'var(--text-secondary)' : 'var(--ok-light)'};" onclick="alternarStatusProfissional('${p.ID}')">
+            <button class="btn-mini" style="color:${ativo ? '#f87171' : 'var(--emerald)'};" onclick="alternarStatusProfissional('${p.ID}')">
               ${ativo ? 'Desativar' : 'Reativar'}
             </button>
           </div>
@@ -1352,7 +1217,7 @@
 
     function configurarPWA() {
       const nomeApp = state.config.NOME_ESTABELECIMENTO || 'Agendamento Online';
-      const logoApp = state.config.LOGO_URL || DEFAULT_LOGO_URL;
+      const logoApp = state.config.LOGO_URL || 'https://cdn.shopify.com/s/files/1/0675/1977/4808/files/22243.png?v=1794152561';
 
       // Atualiza ícone e título para iPhone / iPad
       document.getElementById('appleTouchIcon').href = logoApp;
@@ -1365,8 +1230,8 @@
         short_name: nomeApp.slice(0, 20),
         start_url: window.location.href,
         display: 'standalone',
-        background_color: '#0b0e17',
-        theme_color: '#e11d48',
+        background_color: '#090d16',
+        theme_color: '#10b981',
         icons: [
           { src: logoApp, sizes: '192x192', type: 'image/png' },
           { src: logoApp, sizes: '512x512', type: 'image/png' }
@@ -1377,5 +1242,3 @@
       document.getElementById('pwaManifest').href = URL.createObjectURL(blob);
     }
   </script>
-</body>
-</html>
